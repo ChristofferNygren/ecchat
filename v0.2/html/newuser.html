@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Register new user</title>
+    <script src="../scripts/socket.io.js"></script>
+</head>
+<body>
+
+<!-- Fält för full name, email, image(?) -->
+
+<div id="wrapper">
+    <form action="/register" method="POST" class="userform" id="register">
+        <fieldset>
+            <legend>Register new user</legend>
+
+            <label for="user">Username:</label>
+            <input id="user" type="text" name="user[username]">
+            <p>This is a required field. <span id="infoUser"></span></p>
+
+            <label for="userpass">Password:</label>
+            <input id="userpass" type="password" name="user[password]" disabled>
+            <p>This is a required field. <span id="infoPassword"></span></p>
+
+            <label for="userpassverify">Password:</label>
+            <input id="userpassverify" type="password" disabled>
+            <p>This is a required field. <span id="infoPasswordVerify"></span></p>
+
+            <button type="submit" id="submit-button" disabled>Sign in</button>
+        </fieldset>
+    </form>
+</div>
+<script src="../scripts/newuser.js"></script>
+</body>
+</html>
