@@ -6,7 +6,7 @@ let user = {username: "New user enters chat", session: [{room: chatRooms[0], use
 
 let socket = io();
 
-let onlineUsers = new Array();
+let onlineUsers = [];
 
 // *********************************************************************************************************************
 function NewMessageInChat(room,user,date,message)
@@ -19,20 +19,23 @@ function NewMessageInChat(room,user,date,message)
 
 user.session[0] = new NewMessageInChat("ddd","ddd","ddd","User online!");
 
-let logOutButton = document.getElementById("log-out-button");
-logOutButton.addEventListener("click", logOutUser);
-/*
-document.addEventListener("load",function(){
-    let tempUser = localStorage.getItem("user");
-    if(!tempUser) window.location.href="login.html"; // titta på!
+
+$("log-out-button").on("click", logOutUser);
+
+$(document).ready(function(){
+    checkWhoIsHere();
+    UserOnlineList();
+    setInterval(UserOnlineList,10000);
 });
-*/
-window.addEventListener("load",checkWhoIsHere);
+
 
 // *********************************************************************************************************************
 // ----------- CLIENT-SIDE CHAT:
 
-document.addEventListener("submit", sendMessage);
+
+$(document).on("submit", sendMessage);
+
+
 
 function sendMessage(e)
 {
@@ -46,14 +49,18 @@ function sendMessage(e)
 
     newMessages();
 
-    document.getElementById("chatmess").value = "";
+    $("#chatmess").val("");
+
 }
 
 function checkWhoIsHere() //uppdatera med setInterval istället!
 {
     user.username = localStorage.getItem("user");
     console.log(`${user.username} online!`);
-    document.getElementById("this-is-me").innerText = user.username;
+
+    $("#this-is-me").text(user.username);
+
+
 }
 
 function newMessages()
@@ -82,10 +89,8 @@ function newMessages()
 
             let messageToDisplay = `${tempUsername} ${tempDate}:
             ${tempMessage}`;
-            let paragraph = document.createElement("p");
-            let chatMessage = document.createTextNode(messageToDisplay);
-            paragraph.appendChild(chatMessage);
-            document.getElementById("list-of-messages").appendChild(paragraph);
+
+            $("<p></p>").text(messageToDisplay).appendTo("#list-of-messages");
             console.log(user.session[length-1].message);
 
         }
@@ -105,16 +110,51 @@ function createTimeStamp()
 // *********************************************************************************************************************
 function logOutUser()
 {
-    console.log(`${user.username} loged out.`);
-    let logoutUser = onlineUsers.indexOf(user.username);
-    if(logoutUser >= 0) onlineUsers.splice(logoutUser,1);
-    for(let i=0;i<onlineUsers.length;i++) console.log(onlineUsers[i].username);
 
-    // skriv ÖVER (uppdatera) onlineUser.json = ta bort user.username från listan...
+    localStorage.removeItem("user");
 
-    user = "";
-    document.getElementById("login").style.display = "block";
-    document.getElementById("chat-wrapper").style.display = "none";
-    window.location.href="login.html";
+    $.post("localhost:50000/chat",
+        {
+            username: user.username
+
+        },
+        function(data, status){
+            alert("Data: " + data + "\nStatus: " + status);
+        });
 }
 // *********************************************************************************************************************
+function UserOnlineList()
+{
+
+
+
+    let xmlhttp = new XMLHttpRequest();
+
+    let users = {
+        online: []
+    };
+
+    $("#list-of-users").empty();
+
+    xmlhttp.onreadystatechange = function ()
+    {
+        if (this.readyState == 4 && this.status == 200)
+        {
+            users = JSON.parse(this.responseText);
+
+            for(let i in users.online)
+            {
+                let tempUser = users.online[i].username;
+
+                $("<p></p>").text(tempUser).appendTo("#list-of-users");
+
+            }
+
+        }
+    };
+    xmlhttp.open("GET", "../data/usersOnline.json", true);
+    xmlhttp.send();
+
+
+
+}
