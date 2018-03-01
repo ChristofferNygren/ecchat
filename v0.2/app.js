@@ -105,7 +105,7 @@ app.get('/chat', function(req, res)
             listOfUsersOnline.online.push({"username": currentUser});
             let jsonUsersOnline = JSON.stringify(listOfUsersOnline);
 
-            fs.writeFile('/data/usersOnline.json', jsonUsersOnline, 'utf8', function (error) {
+            fs.writeFile(__dirname + '/data/usersOnline.json', jsonUsersOnline, 'utf8', function (error) {
                 if (error)
                 {
                     return console.log(error);
@@ -139,7 +139,7 @@ app.post('/register', function(req,res)
 
     let jsonUser = JSON.stringify(user);
 
-    fs.readFile('users.json', 'utf8', function readFileCallback(err, data)
+    fs.readFile(__dirname + 'users.json', 'utf8', function readFileCallback(err, data)
     {
         if (err)
         {
@@ -152,7 +152,7 @@ app.post('/register', function(req,res)
         user.information.push({username: req.body.user.username, password: req.body.user.password});
         jsonUser = JSON.stringify(user);
 
-        fs.writeFile('users.json', jsonUser, 'utf8', function(error)
+        fs.writeFile(__dirname + 'users.json', jsonUser, 'utf8', function(error)
         {
                 if(error)
                 {
