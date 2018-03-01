@@ -19,18 +19,23 @@ function NewMessageInChat(room,user,date,message)
 
 user.session[0] = new NewMessageInChat("ddd","ddd","ddd","User online!");
 
-let logOutButton = document.getElementById("log-out-button");
-logOutButton.addEventListener("click", logOutUser);
 
-window.addEventListener("load",function(){
+$("log-out-button").on("click", logOutUser);
+
+$(document).ready(function(){
     checkWhoIsHere();
-    setInterval(UserOnlineList,1000);
+    UserOnlineList();
+    setInterval(UserOnlineList,10000);
 });
+
 
 // *********************************************************************************************************************
 // ----------- CLIENT-SIDE CHAT:
 
-document.addEventListener("submit", sendMessage);
+
+$(document).on("submit", sendMessage);
+
+
 
 function sendMessage(e)
 {
@@ -44,14 +49,18 @@ function sendMessage(e)
 
     newMessages();
 
-    document.getElementById("chatmess").value = "";
+    $("#chatmess").val("");
+
 }
 
 function checkWhoIsHere() //uppdatera med setInterval istället!
 {
     user.username = localStorage.getItem("user");
     console.log(`${user.username} online!`);
-    document.getElementById("this-is-me").innerText = user.username;
+
+    $("#this-is-me").text(user.username);
+
+
 }
 
 function newMessages()
@@ -80,10 +89,8 @@ function newMessages()
 
             let messageToDisplay = `${tempUsername} ${tempDate}:
             ${tempMessage}`;
-            let paragraph = document.createElement("p");
-            let chatMessage = document.createTextNode(messageToDisplay);
-            paragraph.appendChild(chatMessage);
-            document.getElementById("list-of-messages").appendChild(paragraph);
+
+            $("<p></p>").text(messageToDisplay).appendTo("#list-of-messages");
             console.log(user.session[length-1].message);
 
         }
@@ -95,38 +102,25 @@ function newMessages()
 // *********************************************************************************************************************
 function createTimeStamp()
 {
-    let currentDate = new Date();
-    let year = currentDate.getFullYear();
-    let month = currentDate.getMonth() + 1;
-
-    let day = currentDate.getDay();
-
-    let hours = currentDate.getHours();
-    hours = hours < 10 ? '0' + hours : hours;
-    let minutes = currentDate.getMinutes();
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-
-    return `${year}/${month}/${day} ${hours}:${minutes}`;
+    let currentDate = new Date().toLocaleString('en-GB');
+    return `${currentDate}`;
 }
 
 
 // *********************************************************************************************************************
 function logOutUser()
 {
+
     localStorage.removeItem("user");
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", '/chat', true);
 
-
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-    xhr.onreadystatechange = function() {
-        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200)
+    $.post("localhost:50000/chat",
         {
-            // ...
-        }
-    };
-    xhr.send(user.username);
+            username: user.username
+
+        },
+        function(data, status){
+            alert("Data: " + data + "\nStatus: " + status);
+        });
 }
 // *********************************************************************************************************************
 function UserOnlineList()
@@ -140,6 +134,8 @@ function UserOnlineList()
         online: []
     };
 
+    $("#list-of-users").empty();
+
     xmlhttp.onreadystatechange = function ()
     {
         if (this.readyState == 4 && this.status == 200)
@@ -150,10 +146,7 @@ function UserOnlineList()
             {
                 let tempUser = users.online[i].username;
 
-                let paragraph = document.createElement("p");
-                let thisUser = document.createTextNode(tempUser);
-                paragraph.appendChild(thisUser);
-                document.getElementById("list-of-users").appendChild(paragraph);
+                $("<p></p>").text(tempUser).appendTo("#list-of-users");
 
             }
 

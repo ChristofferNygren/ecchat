@@ -70,7 +70,7 @@ app.post('/', function(req, res, next) {
 
                             currentUser = user.information[index].username;
                             console.log(`You have entered correct password for ${currentUser}.`);
-                            listOfUsersOnline.push(currentUser);
+                            listOfUsersOnline[listOfUsersOnline.length]=currentUser;
 
                             res.redirect("/chat");
                             return next();
@@ -120,13 +120,13 @@ app.get('/chat', function(req, res)
 
 app.post("/chat", function(req, res, next) // logga ut
 {
-    console.log(req.body.user.username);
+    console.log(req.body.username);
 
     let tempListOfOnlineUsers = {
         online: []
     };
 
-    let tempUser = req.body.user.username;
+    let tempUser = req.body.username;
 
     fs.readFile(__dirname + '/data/usersOnline.json', 'utf8', function readFileCallback(err, data)
     {
