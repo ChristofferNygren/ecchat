@@ -70,9 +70,9 @@ app.post('/', function(req, res, next) {
 
                             currentUser = user.information[index].username;
                             console.log(`You have entered correct password for ${currentUser}.`);
-                            listOfUsersOnline.push(currentUser);
+                            listOfUsersOnline[listOfUsersOnline.length]=currentUser;
 
-                            res.redirect("/chat"); // <---
+                            res.redirect("/chat");
                             return next();
                         }
                     }
@@ -81,7 +81,7 @@ app.post('/', function(req, res, next) {
 
         });
 
-        console.log("Denied access!");
+        console.log("Access denied!");
     }
 
 });
@@ -118,9 +118,64 @@ app.get('/chat', function(req, res)
 
 });
 
-app.post("/chat", function(req, res) // logga ut
+app.post("/chat", function(req, res, next) // logga ut
 {
-    // stryk anv. från usersOnline
+    console.log(req.body.username);
+
+    let tempListOfOnlineUsers = {
+        online: []
+    };
+
+
+
+
+    let tempUser = req.body.username;
+    console.log(tempUser);
+
+    fs.readFile(__dirname + '/data/usersOnline.json', 'utf8', function readFileCallback(err, data)
+    {
+
+        if (err)
+        {
+            console.log(err);
+        }
+
+        else
+        {
+            tempListOfOnlineUsers = JSON.parse(data);
+
+            ;
+            let userToDel = 0;
+
+            for(let i=0;i<tempListOfOnlineUsers.online.length;i++)
+            {
+                if(listOfUsersOnline.online[i].hasOwnProperty(tempUser)) userToDel = i;
+            }
+
+            Reflect.deleteProperty(listOfUsersOnline.online[i], "username");
+
+      //      listOfUsersOnline.online.indexOf(tempUser);
+
+      //      listOfUsersOnline.online.splice(tempUser,1);
+
+            let jsonUsersOnline = JSON.stringify(listOfUsersOnline);
+
+            fs.writeFile(__dirname + '/data/usersOnline.json', jsonUsersOnline, 'utf8', function (error) {
+                if (error)
+                {
+                    return console.log(error);
+                }
+            });
+
+        return next();
+
+        }
+    });
+
+});
+// -----------------------------
+app.get('/logout', function(req, res)
+{
     res.sendFile(__dirname + "/html/logout.html");
 });
 
@@ -139,7 +194,7 @@ app.post('/register', function(req,res)
 
     let jsonUser = JSON.stringify(user);
 
-    fs.readFile(__dirname + 'users.json', 'utf8', function readFileCallback(err, data)
+    fs.readFile(__dirname + '/data/users.json', 'utf8', function readFileCallback(err, data)
     {
         if (err)
         {
@@ -152,17 +207,17 @@ app.post('/register', function(req,res)
         user.information.push({username: req.body.user.username, password: req.body.user.password});
         jsonUser = JSON.stringify(user);
 
-        fs.writeFile(__dirname + 'users.json', jsonUser, 'utf8', function(error)
+        fs.writeFile(__dirname + '/data/users.json', jsonUser, 'utf8', function(error)
         {
                 if(error)
                 {
                     return console.log(error);
                 }
         });
+
     }});
 
-
-    res.sendFile(__dirname + "/login.html");
+    res.sendFile(__dirname + "/html/login.html");
 });
 
 
