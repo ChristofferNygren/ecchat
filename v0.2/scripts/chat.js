@@ -6,7 +6,7 @@ let user = {username: "New user enters chat", session: [{room: chatRooms[0], use
 
 let socket = io();
 
-let onlineUsers = new Array();
+let onlineUsers = [];
 
 // *********************************************************************************************************************
 function NewMessageInChat(room,user,date,message)
@@ -21,13 +21,11 @@ user.session[0] = new NewMessageInChat("ddd","ddd","ddd","User online!");
 
 let logOutButton = document.getElementById("log-out-button");
 logOutButton.addEventListener("click", logOutUser);
-/*
-document.addEventListener("load",function(){
-    let tempUser = localStorage.getItem("user");
-    if(!tempUser) window.location.href="login.html"; // titta på!
+
+window.addEventListener("load",function(){
+    checkWhoIsHere();
+    setInterval(UserOnlineList,1000);
 });
-*/
-window.addEventListener("load",checkWhoIsHere);
 
 // *********************************************************************************************************************
 // ----------- CLIENT-SIDE CHAT:
@@ -115,16 +113,55 @@ function createTimeStamp()
 // *********************************************************************************************************************
 function logOutUser()
 {
-    console.log(`${user.username} loged out.`);
-    let logoutUser = onlineUsers.indexOf(user.username);
-    if(logoutUser >= 0) onlineUsers.splice(logoutUser,1);
-    for(let i=0;i<onlineUsers.length;i++) console.log(onlineUsers[i].username);
+    localStorage.removeItem("user");
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", '/chat', true);
 
-    // skriv ÖVER (uppdatera) onlineUser.json = ta bort user.username från listan...
 
-    user = "";
-    document.getElementById("login").style.display = "block";
-    document.getElementById("chat-wrapper").style.display = "none";
-    window.location.href="login.html";
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200)
+        {
+            // ...
+        }
+    };
+    xhr.send(user.username);
 }
 // *********************************************************************************************************************
+function UserOnlineList()
+{
+
+
+
+    let xmlhttp = new XMLHttpRequest();
+
+    let users = {
+        online: []
+    };
+
+    xmlhttp.onreadystatechange = function ()
+    {
+        if (this.readyState == 4 && this.status == 200)
+        {
+            users = JSON.parse(this.responseText);
+
+            for(let i in users.online)
+            {
+                let tempUser = users.online[i].username;
+
+                let paragraph = document.createElement("p");
+                let thisUser = document.createTextNode(tempUser);
+                paragraph.appendChild(thisUser);
+                document.getElementById("list-of-users").appendChild(paragraph);
+
+            }
+
+        }
+    };
+    xmlhttp.open("GET", "../data/usersOnline.json", true);
+    xmlhttp.send();
+
+
+
+}

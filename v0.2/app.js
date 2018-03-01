@@ -72,7 +72,7 @@ app.post('/', function(req, res, next) {
                             console.log(`You have entered correct password for ${currentUser}.`);
                             listOfUsersOnline.push(currentUser);
 
-                            res.redirect("/chat"); // <---
+                            res.redirect("/chat");
                             return next();
                         }
                     }
@@ -81,7 +81,7 @@ app.post('/', function(req, res, next) {
 
         });
 
-        console.log("Denied access!");
+        console.log("Access denied!");
     }
 
 });
@@ -118,9 +118,52 @@ app.get('/chat', function(req, res)
 
 });
 
-app.post("/chat", function(req, res) // logga ut
+app.post("/chat", function(req, res, next) // logga ut
 {
-    // stryk anv. från usersOnline
+    console.log(req.body.user.username);
+
+    let tempListOfOnlineUsers = {
+        online: []
+    };
+
+    let tempUser = req.body.user.username;
+
+    fs.readFile(__dirname + '/data/usersOnline.json', 'utf8', function readFileCallback(err, data)
+    {
+
+        if (err)
+        {
+            console.log(err);
+        }
+
+        else
+        {
+            tempListOfOnlineUsers = JSON.parse(data);
+
+            listOfUsersOnline.online.indexOf(tempUser);
+
+            listOfUsersOnline.online.splice(tempUser,1);
+
+            let jsonUsersOnline = JSON.stringify(listOfUsersOnline);
+
+            fs.writeFile(__dirname + '/data/usersOnline.json', jsonUsersOnline, 'utf8', function (error) {
+                if (error)
+                {
+                    return console.log(error);
+                }
+            });
+
+        res.redirect("/logout");
+        return next();
+
+        }
+    });
+
+    res.sendFile(__dirname + "/html/logout.html");
+});
+// -----------------------------
+app.get('/logout', function(req, res)
+{
     res.sendFile(__dirname + "/html/logout.html");
 });
 
