@@ -1,0 +1,69 @@
+body
+{
+    background-color: whitesmoke;
+}
+
+li
+{
+    list-style: none;
+    margin-left: -20px;
+}
+
+/* ------------------------------------------------------ SIGNED IN USER  */
+
+
+.item1 { grid-area: header; }
+.item2 { grid-area: menu; }
+.item3 {
+    grid-area: main;
+
+    overflow: auto;
+}
+.item4 { grid-area: right;
+
+    overflow: auto;
+}
+.item5 { grid-area: footer; }
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+            'header header header header header header'
+            'menu main main main right right'
+            'menu footer footer footer footer footer';
+    grid-gap: 10px;
+    background-image: url("../images/BruegelBabel.jpg");
+    padding: 10px;
+    height: 750px; /* --- */
+}
+.grid-container > div {
+    background-color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 20px 0;
+    font-family: Helvetica;
+    font-size: 17px;
+    color: black;
+}
+
+.chat-room-button
+{
+    text-decoration: none !important;
+    margin-bottom: 25px !important;
+    width: 50px !important;
+    height: 20px !important;
+    border: 1px solid black !important;
+    border-radius: 5px !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
