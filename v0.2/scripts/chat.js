@@ -97,18 +97,8 @@ function newMessages()
 // *********************************************************************************************************************
 function createTimeStamp()
 {
-    let currentDate = new Date();
-    let year = currentDate.getFullYear();
-    let month = currentDate.getMonth() + 1;
-
-    let day = currentDate.getDay();
-
-    let hours = currentDate.getHours();
-    hours = hours < 10 ? '0' + hours : hours;
-    let minutes = currentDate.getMinutes();
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-
-    return `${year}/${month}/${day} ${hours}:${minutes}`;
+    let currentDate = new Date().toLocaleString('en-GB');
+    return `${currentDate}`;
 }
 
 
