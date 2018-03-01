@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EC C@</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+</head>
+<body>
+
+<div id="login">
+    <form action="/" method="POST" class="userform" id="SignIn">
+
+        <fieldset>
+            <legend>Login</legend>
+
+            <label for="user">Username:</label>
+            <input id="user" type="text" name="user[username]">
+
+            <p></p>
+
+            <label for="userpass">Password:</label>
+            <input id="userpass" name="user[password]" type="password">
+            <p></p>
+
+            <button class="userform" id="submit-button" type="submit">Sign in</button>
+        </fieldset>
+    </form>
+    <a href="/html/newuser.html">Sign up</a>
+</div>
+
+<script src="../scripts/login.js"></script>
+
+</body>
+</html>
