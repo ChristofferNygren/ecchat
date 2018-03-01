@@ -113,7 +113,7 @@ function logOutUser()
 
     localStorage.removeItem("user");
 
-    $.post("localhost:50000/chat",
+    $.post("localhost:50000/chat/",
         {
             username: user.username
 

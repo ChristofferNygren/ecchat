@@ -126,7 +126,11 @@ app.post("/chat", function(req, res, next) // logga ut
         online: []
     };
 
+
+
+
     let tempUser = req.body.username;
+    console.log(tempUser);
 
     fs.readFile(__dirname + '/data/usersOnline.json', 'utf8', function readFileCallback(err, data)
     {
@@ -140,9 +144,19 @@ app.post("/chat", function(req, res, next) // logga ut
         {
             tempListOfOnlineUsers = JSON.parse(data);
 
-            listOfUsersOnline.online.indexOf(tempUser);
+            ;
+            let userToDel = 0;
 
-            listOfUsersOnline.online.splice(tempUser,1);
+            for(let i=0;i<tempListOfOnlineUsers.online.length;i++)
+            {
+                if(listOfUsersOnline.online[i].hasOwnProperty(tempUser)) userToDel = i;
+            }
+
+            Reflect.deleteProperty(listOfUsersOnline.online[i], "username");
+
+      //      listOfUsersOnline.online.indexOf(tempUser);
+
+      //      listOfUsersOnline.online.splice(tempUser,1);
 
             let jsonUsersOnline = JSON.stringify(listOfUsersOnline);
 
@@ -153,13 +167,11 @@ app.post("/chat", function(req, res, next) // logga ut
                 }
             });
 
-        res.redirect("/logout");
         return next();
 
         }
     });
 
-    res.sendFile(__dirname + "/html/logout.html");
 });
 // -----------------------------
 app.get('/logout', function(req, res)
@@ -202,8 +214,8 @@ app.post('/register', function(req,res)
                     return console.log(error);
                 }
         });
-    }});
 
+    }});
 
     res.sendFile(__dirname + "/html/login.html");
 });
