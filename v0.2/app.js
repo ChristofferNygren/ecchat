@@ -11,6 +11,12 @@ let io = require('socket.io').listen(server);
 let currentUser = "";
 let listOfUsersOnline = [];
 let temp2 = [];
+
+let log = [{
+    user: "",
+    userLog: [],
+    status: "",
+}];
 // -----------------------------
 
 app.use(express.static(__dirname + '/'));
@@ -95,7 +101,7 @@ app.post('/', function(req, res, next) {
                             if(user.information[index].username === temp2.online[test].username)counter++;
                         }
 
-                        if(counter === 0)
+                        if(counter === 0 && CheckIfOKToTry(req.body.user.username) !== "notAllowedToTry")
                         {
 
                             if (user.information[index].password === req.body.user.password) {
@@ -104,6 +110,7 @@ app.post('/', function(req, res, next) {
                                     password: req.body.user.password
                                 });
                                 currentUser = user.information[index].username;
+                                ClearLogAttempts(currentUser);
                                 console.log(`You have entered correct password for ${currentUser}.`);
 
                                 res.redirect("/chat");
@@ -115,6 +122,8 @@ app.post('/', function(req, res, next) {
             }
 
         });
+
+        LogAttempt(req.body.user.username);
 
         console.log("Access denied!");
     }
@@ -278,3 +287,59 @@ app.post('/register', function(req,res)
 });
 
 
+function LogAttemptToSignIn(attemptDate)
+{
+    this.attemptDate = attemptDate;
+}
+
+
+function CheckIfOKToTry(user)
+{
+    for(let i in log)
+    {
+        if(user === log[i].user)
+        {
+            CheckIfLogForUserShouldBeCleared(i);
+            if(log[i].userlog.length > 5)
+            {
+                let seconds = (log[i].userlog[0].attemptDate.getTime() - log[i].userlog[4].attemptDate.getTime()) / 1000;
+                if(seconds < 20) log[i].status = "notAllowedToTry";
+            }
+        }
+    }
+}
+
+function CheckIfLogForUserShouldBeCleared(userIndex)
+{
+
+    if(log[userIndex].userLog.length > 5)
+    {
+        let differenceInTime = (log[userIndex].userLog[0].attemptDate.getTime() - log[userIndex].userLog[4].attemptDate.getTime());
+        if(differenceInTime >= 20) log[userIndex].status = "AllowedToTry";
+    }
+
+}
+
+function ClearLogAttempts(user)
+{
+    for(let i in log)
+    {
+        if (user === log[i].user)
+        {
+            log[i].userLog = [];
+        }
+    }
+
+}
+
+function LogAttempt(user)
+{
+    for(let i in log)
+    {
+        if (user === log[i].user)
+        {
+            let tempDateForAttempt = new Date();
+            log[i].userLog = new LogAttemptToSignIn(tempDateForAttempt);
+        }
+    }
+}
