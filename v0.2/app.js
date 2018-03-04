@@ -6,7 +6,8 @@ let bodyParser = require('body-parser');
 let fs = require("fs");
 let server = http.createServer(app);
 let io = require('socket.io').listen(server);
-
+let multer  = require('multer');
+let upload = multer({ dest: __dirname + '/images/uploads/' });
 //------------------------------
 let currentUser = "";
 let listOfUsersOnline = [];
@@ -134,32 +135,31 @@ app.post('/', function(req, res, next) {
 app.get('/chat', function(req, res)
 {
   //  console.log(`User signed in as ${currentUser}`);
+    if(currentUser==="")  res.status(401).send("You are not authorized.");
 
-    fs.readFile(__dirname + '/data/usersOnline.json', 'utf8', function readFileCallback(err, data)
-    {
+    else {
 
-        if (err)
-        {
-            console.log(err);
-        }
+        fs.readFile(__dirname + '/data/usersOnline.json', 'utf8', function readFileCallback(err, data) {
 
-        else
-        {
-            listOfUsersOnline = JSON.parse(data);
-            listOfUsersOnline.online.push({"username": currentUser});
-            let jsonUsersOnline = JSON.stringify(listOfUsersOnline);
+            if (err) {
+                console.log(err);
+            }
 
-            fs.writeFile(__dirname + '/data/usersOnline.json', jsonUsersOnline, 'utf8', function (error) {
-                if (error)
-                {
-                    return console.log(error);
-                }
-            });
-        }
-    });
+            else {
+                listOfUsersOnline = JSON.parse(data);
+                listOfUsersOnline.online.push({"username": currentUser});
+                let jsonUsersOnline = JSON.stringify(listOfUsersOnline);
 
-    res.sendFile(__dirname + "/html/chat.html");
+                fs.writeFile(__dirname + '/data/usersOnline.json', jsonUsersOnline, 'utf8', function (error) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                });
+            }
+        });
 
+        res.sendFile(__dirname + "/html/chat.html");
+    }
 });
 
 
@@ -252,7 +252,7 @@ app.get('/register', function(req, res)
     res.sendFile(__dirname + "/html/newuser.html");
 });
 
-app.post('/register', function(req,res)
+app.post('/register', upload.single('UserImage'), function(req,res)
 {
       let user = {
         information: []

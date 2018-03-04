@@ -6,8 +6,8 @@ $(document).ready(function(){
    $("#userpass").on("input", verifyPassword);
    $("#userpassverify").on("input", verifyConsistentPassword);
    $("#submit-button").on("click", function(){
-       if(checkIfUsed()) document.getElementById("register").submit();
-       else document.getElementById("register").reset();
+       if(checkIfUsed()) $("#register").submit();
+       else $("#register").reset();
    });
 
 });
@@ -21,7 +21,7 @@ function verifyUser()
 
     if(possibleSignsInUsername.test(usernameInputed))
     {
-        $("#userpass").prop("disabled", false);
+      //  $("#userpass").removeAttr("disabled");
 
 
     }
@@ -69,7 +69,7 @@ function verifyPassword()
 
     if(possibleSignsInPassword.test(passwordInputed))
     {
-        $("#userpassverify").prop("disabled", false);
+    //...
 
     }
 }
@@ -81,7 +81,7 @@ function verifyConsistentPassword()
 
     if(passwordInputed === passwordInputedVerify)
     {
-        $("#submit-button").prop("disabled", false);
+        //...
 
     }
 }
