@@ -6,7 +6,10 @@ $(document).ready(function(){
    $("#userpass").on("input", verifyPassword);
    $("#userpassverify").on("input", verifyConsistentPassword);
    $("#submit-button").on("click", function(){
-       if(checkIfUsed()) $("#register").submit();
+       if(verifyUser() && verifyPassword() && verifyConsistentPassword() && checkIfUsed())
+       {
+           $("#register").submit();
+       }
        else $("#register").reset();
    });
 
@@ -19,13 +22,7 @@ function verifyUser()
 {
     let usernameInputed = $("#user").text();
 
-    if(possibleSignsInUsername.test(usernameInputed))
-    {
-      //  $("#userpass").removeAttr("disabled");
-
-
-    }
-
+    return !possibleSignsInUsername.test(usernameInputed);
 }
 // *********************************************************************************************************************
 function checkIfUsed()
@@ -45,14 +42,7 @@ function checkIfUsed()
                     return false;
                 }
 
-                else
-                {
-                    $("#infoUser").text("This field is required.");
-                }
-
             }
-
-
         },
         error: () => {
             console.log('An error occured')
@@ -67,11 +57,7 @@ function verifyPassword()
 {
     let passwordInputed = $("#userpass").text();
 
-    if(possibleSignsInPassword.test(passwordInputed))
-    {
-    //...
-
-    }
+    return !possibleSignsInPassword.test(passwordInputed);
 }
 // *********************************************************************************************************************
 function verifyConsistentPassword()
@@ -79,10 +65,6 @@ function verifyConsistentPassword()
     let passwordInputed = $("#userpass").text();
     let passwordInputedVerify = $("#userpassverify").val();
 
-    if(passwordInputed === passwordInputedVerify)
-    {
-        //...
-
-    }
+    return passwordInputed === passwordInputedVerify;
 }
 // *********************************************************************************************************************

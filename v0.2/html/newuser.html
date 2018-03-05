@@ -12,11 +12,13 @@
 <!-- Fält för full name, email, image(?) -->
 
 <div id="wrapper">
-    <form action="/register" method="POST" class="userform" id="register">
+    <form action="/register" method="POST" class="userform" id="register" enctype="multipart/form-data">
         <fieldset>
             <legend>Register new user</legend>
-            <label for="userpic">Your pic:</label>
-            <input id="userpic" name="UserImage" type="file">
+            <p>
+            <label for="file">Your pic:</label>
+            <input id="file" name="UserImage" type="file">
+            </p>
 
             <label for="user">Username:</label>
             <input id="user" type="text" name="user[username]">

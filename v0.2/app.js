@@ -7,7 +7,11 @@ let fs = require("fs");
 let server = http.createServer(app);
 let io = require('socket.io').listen(server);
 let multer  = require('multer');
-let upload = multer({ dest: __dirname + '/images/uploads/' });
+
+
+
+let upload = multer({dest: __dirname + '/images/uploads/'});
+
 //------------------------------
 let currentUser = "";
 let listOfUsersOnline = [];
@@ -252,8 +256,11 @@ app.get('/register', function(req, res)
     res.sendFile(__dirname + "/html/newuser.html");
 });
 
-app.post('/register', upload.single('UserImage'), function(req,res)
+app.post('/register', upload.any(), function(req,res)
 {
+
+
+
       let user = {
         information: []
     };
@@ -283,6 +290,11 @@ app.post('/register', upload.single('UserImage'), function(req,res)
 
     }});
 
+    if (req.files)
+    {
+        console.dir(req.files);
+       // return res.end('Thank you for the file');
+    }
     res.sendFile(__dirname + "/html/login.html");
 });
 
@@ -300,7 +312,7 @@ function CheckIfOKToTry(user)
         if(user === log[i].user)
         {
             CheckIfLogForUserShouldBeCleared(i);
-            if(log[i].userlog.length > 5)
+            if(log[i].userLog.length > 5)
             {
                 let seconds = (log[i].userlog[0].attemptDate.getTime() - log[i].userlog[4].attemptDate.getTime()) / 1000;
                 if(seconds < 20) log[i].status = "notAllowedToTry";
