@@ -65,7 +65,7 @@ function sendMessage(e)
 function checkWhoIsHere() //uppdatera med setInterval istället!
 {
     user.username = localStorage.getItem("user");
-    console.log(`${user.username} online!`);
+   // console.log(`${user.username} online!`);
 
     $("#this-is-me").text(user.username);
 

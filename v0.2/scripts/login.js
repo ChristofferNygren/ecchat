@@ -3,7 +3,7 @@
 let socket = io();
 
 $("#SignIn").on("submit",function () {
-    let username = $("#user").text();
+    let username = $("#user").val();
 
     localStorage.setItem("user",username);
 });

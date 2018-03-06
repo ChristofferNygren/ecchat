@@ -8,6 +8,10 @@ let socket = io();
 
 let onlineUsers = [];
 
+let statusForUpdateOfOnlineUsers = true;
+let statusForUpdateOfSignOut = false;
+
+
 // *********************************************************************************************************************
 function NewMessageInChat(room,user,date,message)
 {
@@ -20,12 +24,17 @@ function NewMessageInChat(room,user,date,message)
 user.session[0] = new NewMessageInChat("ddd","ddd","ddd","User online!");
 
 
-$("log-out-button").on("click", logOutUser);
+
+
+$("#log-out-button").on("click", logOutUser);
+
+
+
 
 $(document).ready(function(){
     checkWhoIsHere();
     UserOnlineList();
-    setInterval(UserOnlineList,10000);
+    setInterval(UserOnlineList,1000);
 });
 
 
@@ -56,7 +65,7 @@ function sendMessage(e)
 function checkWhoIsHere() //uppdatera med setInterval istället!
 {
     user.username = localStorage.getItem("user");
-    console.log(`${user.username} online!`);
+    // console.log(`${user.username} online!`);
 
     $("#this-is-me").text(user.username);
 
@@ -111,50 +120,32 @@ function createTimeStamp()
 function logOutUser()
 {
 
-    localStorage.removeItem("user");
 
-    $.post("localhost:50000/chat",
-        {
-            username: user.username
+    window.location.assign("/html/logout.html");
 
-        },
-        function(data, status){
-            alert("Data: " + data + "\nStatus: " + status);
-        });
 }
 // *********************************************************************************************************************
 function UserOnlineList()
 {
 
 
+    if(statusForUpdateOfOnlineUsers) $.ajax({
+        url: "../data/usersOnline.json",
+        success: (response) => {
+            $("#list-of-users").empty();
 
-    let xmlhttp = new XMLHttpRequest();
-
-    let users = {
-        online: []
-    };
-
-    $("#list-of-users").empty();
-
-    xmlhttp.onreadystatechange = function ()
-    {
-        if (this.readyState == 4 && this.status == 200)
-        {
-            users = JSON.parse(this.responseText);
-
-            for(let i in users.online)
+            for(let i in response.online)
             {
-                let tempUser = users.online[i].username;
+                let tempUser = response.online[i].username;
 
                 $("<p></p>").text(tempUser).appendTo("#list-of-users");
-
             }
 
+        },
+        error: () => {
+            console.log('An error occured')
         }
-    };
-    xmlhttp.open("GET", "../data/usersOnline.json", true);
-    xmlhttp.send();
-
+    });
 
 
 }
