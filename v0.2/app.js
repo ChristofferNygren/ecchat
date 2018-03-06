@@ -162,9 +162,73 @@ app.post("/chat", function(req, res, next) // logga ut
     res.sendFile(__dirname + "/html/logout.html");
 });
 // -----------------------------
-app.get('/logout', function(req, res)
+app.post('/logout', function(req, res)
 {
-    res.sendFile(__dirname + "/html/logout.html");
+    //   console.log(req.body);
+    //  console.log(req.body.user);
+
+
+    let tempListOfOnlineUsers = {
+        online: []
+    };
+
+    let tempUser = req.body.user;
+
+
+    fs.readFile(__dirname + '/data/usersOnline.json', 'utf8', function readFileCallback(err, data)
+    {
+
+        if (err)
+        {
+            console.log(err);
+        }
+
+        else {
+            tempListOfOnlineUsers = JSON.parse(data);
+            //console.log(tempListOfOnlineUsers.online);
+
+            let userToDel = 0;
+
+            for (let i in tempListOfOnlineUsers.online) {
+
+                if (listOfUsersOnline.online[i].username === tempUser) userToDel = i;
+                console.log(tempListOfOnlineUsers.online[i].username);
+            }
+//tempListOfOnlineUsers.online[i].hasOwnProperty(tempUser)
+            //   Reflect.deleteProperty(tempListOfOnlineUsers.online[userToDel], "username");
+
+            console.log(userToDel);
+
+                 listOfUsersOnline.online.indexOf(tempUser);
+
+            listOfUsersOnline.online.splice(userToDel, 1);
+
+
+            console.log(listOfUsersOnline.online);
+            let temp = {
+                online: []
+            };
+
+            for (let i = 0; i < listOfUsersOnline.online.length; i++) {
+                temp.online.push(listOfUsersOnline.online[i]);
+            }
+
+            let jsonUsersOnline = JSON.stringify(temp);
+
+            fs.writeFile(__dirname + '/data/usersOnline.json', jsonUsersOnline, 'utf8', function (error) {
+                if (error) {
+                    return console.log(error);
+                }
+            });
+            currentUser = "";
+
+
+        }
+            // }
+            //  });
+
+    });
+    res.sendFile(__dirname + "/html/login.html");
 });
 
 // -----------------------------
