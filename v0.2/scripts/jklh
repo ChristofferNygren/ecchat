@@ -4,11 +4,9 @@ const chatRooms = ["Room one", "Room two", "Room three"];
 
 let user = "";
 
-let session = [];
+let session = [{room: 0, user: "", date: "", message: ""}];
 
 let currentRoom = 0;
-
-
 
 let socket = io();
 
@@ -28,18 +26,18 @@ function NewMessageInChat(room, user,date,message)
     this.message = message;
 }
 
-session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
+
 
 
 $("#log-out-button").on("click", logOutUser);
 $("#room0").click(function(){
-    ChangeRoom(0);
+    ChangeRoom(0)
 });
 $("#room1").click(function(){
-    ChangeRoom(1);
+    ChangeRoom(1)
 });
 $("#room2").click(function(){
-    ChangeRoom(2);
+    ChangeRoom(2)
 });
 
 $(document).ready(function(){
@@ -47,10 +45,12 @@ $(document).ready(function(){
     UserOnlineList();
     setInterval(UserOnlineList,1000);
 
-
 });
 
-
+user.session[user.session.length].room=0;
+user.session[user.session.length].user.push(user.username);
+user.session[user.session.length].date.push(createTimeStamp());
+user.session[user.session.length].message.push("...");
 
 // *********************************************************************************************************************
 // ----------- CLIENT-SIDE CHAT:
@@ -64,7 +64,7 @@ function sendMessage(e)
 {
     e.preventDefault();
 
-    let messageFromClient =  `${createTimeStamp()}|${user}|${document.getElementById("chatmess").value}|${currentRoom}`;
+    let messageFromClient =  `${createTimeStamp()}|${user.username}|${document.getElementById("chatmess").value}|${currentRoom}`;
 
     socket.emit("chat message", messageFromClient);
 
@@ -76,10 +76,9 @@ function sendMessage(e)
 
 function checkWhoIsHere()
 {
-    user = localStorage.getItem("user");
+    user.username = localStorage.getItem("user");
 
-    $("#this-is-me").text(user);
-
+    $("#this-is-me").text(user.username);
 
 
 
@@ -88,7 +87,6 @@ function checkWhoIsHere()
 
 function newMessages()
 {
-
     socket.on("chat message", function(msg)
     {
         let newChatMessage = msg.split("|");
@@ -96,41 +94,48 @@ function newMessages()
         let tempDate = newChatMessage[0];
         let tempUsername = newChatMessage[1];
         let tempMessage = newChatMessage[2];
-
         let tempRoom = newChatMessage[3];
 
-        session[session.length] = new NewMessageInChat(tempRoom, tempUsername, tempDate, tempMessage);
-
 /*
+        user.session[user.session.length].room = tempRoom;
+        user.session[user.session.length].user = tempUsername;
+        user.session[user.session.length].date = createTimeStamp();
+        user.session[user.session.length].message = tempMessage;
+*/
+        user.session[user.session.length].room.push(tempRoom);
+        user.session[user.session.length].username.push(tempUsername);
+        user.session[user.session.length].date.push(tempDate);
+        user.session[user.session.length].message.push(tempMessage);
+
+
+
             let tempCounter = 0;
 
-            for (let i = 0; i < session.length; i++)
+            for (let i = 0; i < user.session.length; i++)
             {
 
-                if (session[i].message === tempMessage) tempCounter++;
-                */
-            //    else
-                 //   session[session.length].message = tempMessage;
+                if (user.session[i].message === tempMessage) tempCounter++;
+                else user.session[user.session.length].message = tempMessage;
 
-           // }
+            }
 
-       //     if (tempCounter <= 1) {
+            if (tempCounter <= 1) {
 
-                for(let index=0;index < 3;index++) // <<<<
+                for(let index=0;index < chatRooms.length;index++) // <<<<
                 {
-                let tempRoom = parseInt(session[index].room, 10);
-                    if(currentRoom === tempRoom)
+
+                    if(index === currentRoom)
                     {
                         let messageToDisplay = `${tempUsername} ${tempDate}: ${tempMessage}`;
 
                         $("<p></p>").text(messageToDisplay).appendTo("#list-of-messages");
-                        console.log(session[length - 1].message); //error, testa ersätt med preventDefault
+                        console.log(user.session[length - 1].message); //error, testa ersätt med preventDefault
 
                     }
                 }
 
 
-         //  }
+           }
 
 
     });
@@ -181,23 +186,16 @@ function UserOnlineList()
 function ChangeRoom(newRoom)
 {
 
-$("#list-of-messages").empty();
+//$("#list-of-messages").empty();
 
 currentRoom = newRoom;
-
-    for(let i=0;i<3;i++)
-    {
-
-        for (let index in session)
-        {
-            let tempRoom = parseInt(session[index].room, 10);
-            if(currentRoom === tempRoom)
-            {
-
-                let messageToDisplay = `${session[i].user} ${session[i].date}: ${session[i].message}`;
+    for(let i=0;i<chatRooms.length;i++) {
+        if (currentRoom === i) {
+            for (let i = 0; i < user.session.length; i++) {
+                let messageToDisplay = `${user.session[i].user} ${user.session[i].date}: ${user.session[i].message}`;
 
                 $("<p></p>").text(messageToDisplay).appendTo("#list-of-messages");
-                console.log(session[length - 1].message);
+                console.log(user.session[length - 1].message);
             }
         }
     }
