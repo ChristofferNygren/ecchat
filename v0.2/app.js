@@ -33,6 +33,10 @@ io.on('connection', function (socket) {
         io.emit('chat message', msg);
     });
 
+    socket.on("new room", function(msg) {
+        io.emit("new room", msg);
+    });
+
 });
 
 // -----------------------------
@@ -70,7 +74,7 @@ app.post('/', function(req, res, next) {
 
                             currentUser = user.information[index].username;
                             console.log(`You have entered correct password for ${currentUser}.`);
-                            listOfUsersOnline.push(currentUser);
+                            listOfUsersOnline[listOfUsersOnline.length]=currentUser;
 
                             res.redirect("/chat");
                             return next();
@@ -120,13 +124,13 @@ app.get('/chat', function(req, res)
 
 app.post("/chat", function(req, res, next) // logga ut
 {
-    console.log(req.body.user.username);
+    console.log(req.body.username);
 
     let tempListOfOnlineUsers = {
         online: []
     };
 
-    let tempUser = req.body.user.username;
+    let tempUser = req.body.username;
 
     fs.readFile(__dirname + '/data/usersOnline.json', 'utf8', function readFileCallback(err, data)
     {
@@ -153,8 +157,8 @@ app.post("/chat", function(req, res, next) // logga ut
                 }
             });
 
-        res.redirect("/logout");
-        return next();
+            res.redirect("/logout");
+            return next();
 
         }
     });
@@ -162,9 +166,73 @@ app.post("/chat", function(req, res, next) // logga ut
     res.sendFile(__dirname + "/html/logout.html");
 });
 // -----------------------------
-app.get('/logout', function(req, res)
+app.post('/logout', function(req, res)
 {
-    res.sendFile(__dirname + "/html/logout.html");
+    //   console.log(req.body);
+    //  console.log(req.body.user);
+
+
+    let tempListOfOnlineUsers = {
+        online: []
+    };
+
+    let tempUser = req.body.user;
+
+
+    fs.readFile(__dirname + '/data/usersOnline.json', 'utf8', function readFileCallback(err, data)
+    {
+
+        if (err)
+        {
+            console.log(err);
+        }
+
+        else {
+            tempListOfOnlineUsers = JSON.parse(data);
+            //console.log(tempListOfOnlineUsers.online);
+
+            let userToDel = 0;
+
+            for (let i in tempListOfOnlineUsers.online) {
+
+                if (listOfUsersOnline.online[i].username === tempUser) userToDel = i;
+                console.log(tempListOfOnlineUsers.online[i].username);
+            }
+//tempListOfOnlineUsers.online[i].hasOwnProperty(tempUser)
+            //   Reflect.deleteProperty(tempListOfOnlineUsers.online[userToDel], "username");
+
+            console.log(userToDel);
+
+                 listOfUsersOnline.online.indexOf(tempUser);
+
+            listOfUsersOnline.online.splice(userToDel, 1);
+
+
+            console.log(listOfUsersOnline.online);
+            let temp = {
+                online: []
+            };
+
+            for (let i = 0; i < listOfUsersOnline.online.length; i++) {
+                temp.online.push(listOfUsersOnline.online[i]);
+            }
+
+            let jsonUsersOnline = JSON.stringify(temp);
+
+            fs.writeFile(__dirname + '/data/usersOnline.json', jsonUsersOnline, 'utf8', function (error) {
+                if (error) {
+                    return console.log(error);
+                }
+            });
+            currentUser = "";
+
+
+        }
+            // }
+            //  });
+
+    });
+    res.redirect("/");
 });
 
 // -----------------------------
@@ -176,7 +244,7 @@ app.get('/register', function(req, res)
 
 app.post('/register', function(req,res)
 {
-      let user = {
+    let user = {
         information: []
     };
 
@@ -191,21 +259,19 @@ app.post('/register', function(req,res)
 
         else
         {
-        user = JSON.parse(data);
-        user.information.push({username: req.body.user.username, password: req.body.user.password});
-        jsonUser = JSON.stringify(user);
+            user = JSON.parse(data);
+            user.information.push({username: req.body.user.username, password: req.body.user.password});
+            jsonUser = JSON.stringify(user);
 
-        fs.writeFile(__dirname + '/data/users.json', jsonUser, 'utf8', function(error)
-        {
+            fs.writeFile(__dirname + '/data/users.json', jsonUser, 'utf8', function(error)
+            {
                 if(error)
                 {
                     return console.log(error);
                 }
-        });
-    }});
+            });
+        }});
 
 
     res.sendFile(__dirname + "/html/login.html");
 });
-
-

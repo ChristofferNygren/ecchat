@@ -2,8 +2,8 @@
 
 let socket = io();
 
-document.getElementById("SignIn").addEventListener("submit",function () {
-    let username = document.getElementById("user").value;
-    console.log(username);
+$("#SignIn").on("submit",function () {
+    let username = $("#user").val();
+
     localStorage.setItem("user",username);
 });
