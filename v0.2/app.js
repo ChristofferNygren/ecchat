@@ -33,6 +33,10 @@ io.on('connection', function (socket) {
         io.emit('chat message', msg);
     });
 
+    socket.on("new room", function(msg) {
+        io.emit("new room", msg);
+    });
+
 });
 
 // -----------------------------
@@ -228,7 +232,7 @@ app.post('/logout', function(req, res)
             //  });
 
     });
-    res.sendFile(__dirname + "/html/login.html");
+    res.redirect("/");
 });
 
 // -----------------------------
