@@ -2,11 +2,15 @@ let possibleSignsInUsername = new RegExp("^[A-Ba-b0-9_]{2,12}$");
 let possibleSignsInPassword = new RegExp("^[A-Ba-b0-9_]{5,12}$");
 
 $(document).ready(function(){
+    $("#fullname").on("input", verifyFullname);
+    $("#email").on("input", verifyEmail);
    $("#user").on("input", verifyUser);
    $("#userpass").on("input", verifyPassword);
    $("#userpassverify").on("input", verifyConsistentPassword);
+    $("#checkbox").on("click", verifyCheckbox);
    $("#submit-button").on("click", function(){
-       if(verifyUser() && verifyPassword() && verifyConsistentPassword() && checkIfUsed())
+
+       if(verifyFullname() && verifyEmail() && verifyUser() && verifyPassword() && verifyConsistentPassword() && verifyCheckbox() && checkIfUsed())
        {
            $("#register").submit();
        }

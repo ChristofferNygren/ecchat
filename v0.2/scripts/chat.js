@@ -89,9 +89,17 @@ function newInformationToDisplay(e)
 
         session[session.length] = new NewMessageInChat(parseInt(tempRoom,10), tempUsername, tempDate, tempMessage);
 
-        let messageToDisplay = `${tempUsername} ${tempDate}: ${tempMessage}`;
+        //let messageToDisplay = `${tempUsername} ${tempDate}: ${tempMessage}`;
+        $("<div  class='userMessageBox'></div>").appendTo("#list-of-messages");
+        $("<div class='messageBody'></div>").appendTo(".userMessageBox");
+        $("<p class='messageFromUser'></p>").text(tempMessage).appendTo(".messageBody");
+        $("<div class='messageInfo'></div>").appendTo(".userMessageBox");
+        $("<p class='userName'></p>").text(tempUsername).appendTo(".messageInfo");
+        $("<em class='timeStamp'></em>").text(tempDate).appendTo(".messageInfo");
 
-        $("<p></p>").text(messageToDisplay).appendTo("#list-of-messages");
+
+
+        //$("<p class='messageFromUser'></p>").text(tempMessage).appendTo("#list-of-messages");
         console.log(session[length - 1].message); // stryk?
     });
 
