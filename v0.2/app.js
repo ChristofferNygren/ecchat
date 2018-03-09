@@ -63,7 +63,7 @@ app.post('/', function(req, res, next) {
 
             else {
                 user = JSON.parse(data);
-                user.information.push({username: req.body.user.username, password: req.body.user.password});
+                user.information.push({username: req.body.user.username, password: req.body.user.password, fullname: req.body.user.fullname, email: req.body.user.email});
 
 
                 for (let index in user.information) //(let index in user.information)

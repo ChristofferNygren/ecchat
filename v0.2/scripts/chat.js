@@ -14,7 +14,7 @@ function UserInRoom(user, room)
     this.user = user;
     this.room = room;
 }
-tempUsersInWhichRoom[0] = new UserInRoom("Invisible Man", 0);
+
 // *********************************************************************************************************************
 function NewMessageInChat(room, user,date,message)
 {
@@ -23,7 +23,9 @@ function NewMessageInChat(room, user,date,message)
     this.date = date;
     this.message = message;
 }
-session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
+
+
+
 // *********************************************************************************************************************
 
 $("#log-out-button").on("click", logOutUser);
@@ -42,38 +44,60 @@ $(document).ready(function(){
     checkWhoIsHere();
     setInterval(LoadUserOnlineList,1000); //jämför den med onlineUsers med temp..?
     UserOnlineList();
+
+    tempUsersInWhichRoom[0] = new UserInRoom(user, 0);
+    session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
+
+    $("#chat").on("click", sendMessage);
+
+/*
+    $("#chat").submit(function(){
+
+        tempUsersInWhichRoom[0] = new UserInRoom(user, 0);
+        session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
+        sendMessage();
+    });
+*/
+
 });
 
-$(document).on("submit", sendMessage);
+
+
+
+
+
 // *********************************************************************************************************************
 function sendMessage(e)
 {
+
+
     e.preventDefault();
 
     let messageFromClient =  `${createTimeStamp()}|${user}|${document.getElementById("chatmess").value}|${currentRoom}`;
 
     socket.emit("chat message", messageFromClient);
 
-    let tempChatroom = currentRoom + user;
-
-    socket.emit("new room", tempChatroom);
-
     newInformationToDisplay();
 
     $("#chatmess").val("");
 
+
+
 }
+
 // *********************************************************************************************************************
 function checkWhoIsHere()
 {
     user = localStorage.getItem("user");
 
     $("#this-is-me").text(user);
+
+
 }
 // *********************************************************************************************************************
 function newInformationToDisplay(e)
 {
-// e.preventDefault();
+ //e.preventDefault();
 
     socket.on("chat message", function(msg)
     {
@@ -89,9 +113,21 @@ function newInformationToDisplay(e)
 
         session[session.length] = new NewMessageInChat(parseInt(tempRoom,10), tempUsername, tempDate, tempMessage);
 
-        let messageToDisplay = `${tempUsername} ${tempDate}: ${tempMessage}`;
+        $("#list-of-messages").empty();
 
-        $("<p></p>").text(messageToDisplay).appendTo("#list-of-messages");
+        for (let index=0;index <session.length;index++)
+        {
+            let tempRoom = session[index].room;
+
+            if(currentRoom === tempRoom && session[index].message !== "")
+            {
+                let messageToDisplay = `${session[index].user} ${session[index].date} ${session[index].message}`;
+
+                $("<p></p>").text(messageToDisplay).appendTo("#list-of-messages");
+                // console.log(session[length - 1].message);
+            }
+        }
+
         console.log(session[length - 1].message); // stryk?
     });
 
@@ -150,6 +186,7 @@ $("<h2></h2>").text(chatRooms[currentRoom]).appendTo("#list-of-users");
                     {
                         let tempUser = onlineUsers[index];
                         $("<p></p>").text(tempUser).appendTo("#list-of-users");
+
                         //   console.log(session[length - 1].message); //error, testa ersätt med preventDefault
                     }
                 }
@@ -170,9 +207,18 @@ function LoadUserOnlineList()
             for(let i in response.online)
             {
                 let tempUser = response.online[i].username;
+
                 onlineUsers[onlineUsers.length] = tempUser;
 
-                tempUsersInWhichRoom[tempUsersInWhichRoom.length] = new UserInRoom(tempUser, 0);
+                for(let index=0;index<onlineUsers.length;index++)
+                {
+                    if(tempUser !== onlineUsers[index])
+                    {
+                        tempUsersInWhichRoom[tempUsersInWhichRoom.length] = new UserInRoom(tempUser, 0);
+                    }
+                }
+
+
             }
 
         },
@@ -200,7 +246,7 @@ function ChangeRoom(newRoom)
     {
         let tempRoom = session[index].room;
 
-        if(currentRoom === tempRoom)
+        if(currentRoom === tempRoom && session[index].message !== "")
         {
             let messageToDisplay = `${session[index].user} ${session[index].date} ${session[index].message}`;
 
@@ -208,5 +254,9 @@ function ChangeRoom(newRoom)
             // console.log(session[length - 1].message);
         }
     }
+
+    let tempChatroom = currentRoom + user;
+    socket.emit("new room", tempChatroom);
+
 }
 // *********************************************************************************************************************
