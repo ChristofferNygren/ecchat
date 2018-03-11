@@ -6,8 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<h2>You have signed out.</h2>
-<p>In 5 seconds you will be redirected to start (sign in-page).</p>
+
 
 <form id="del" name="user" action="/logout" method="post">
     <input id="test" name="user">
@@ -23,56 +22,9 @@
           localStorage.removeItem("user");
             $("#test").val(tempUser);
             $("#del").submit();
-        },2);
+        },1);
     });
 
-
-
-    /*
-    (())  setTimeout(function(){
-        let tempUser = localStorage.getItem("user");
-        console.log(tempUser);
-
-        $.ajax({
-
-            type: "POST",
-
-            url: "localhost:50000/logout",
-
-            data: {tempUser},
-
-            success: function(){
-
-                console.log(tempUser);
-
-                },
-
-            dataType: "JSON"
-
-        });
-
-        localStorage.removeItem("user");
-        window.location.assign("localhost:50000/");
-
-
-  //  },1000);
-
-
-    /*
-     $.ajax({
-
-        type: "POST",
-
-        url: "localhost:50000/logout",
-
-        data: {user: user.username},
-
-        success: function(){ },
-
-        dataType: "JSON"
-
-    });
-     */
 
 </script>
 
