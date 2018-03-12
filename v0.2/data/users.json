@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"information":[{"username":"cmb","password":"blabla"},{"username":"harry","password":"blabla"},{"username":"alex","password":"alex"},{"username":"test","password":"whatever"},{"username":"Lennart","password":"123"},{"username":"cny","password":"lol"},{"username":"Begin123","password":"joaper"},{"username":"torsten","password":"flink"},{"username":"marcus","password":"hej123"},{"username":"kulkalle","password":"hej"}]}
+=======
+{"information":[{"username":"alex","password":"alex"},{"username":"harry","password":"harry"},{"username":"cny","password":"lol"}]}
+>>>>>>> 126b05bcf57ffa30cfaa0e2a8bef7515c2cdcaa8
