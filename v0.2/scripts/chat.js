@@ -89,8 +89,25 @@ function newInformationToDisplay()
 
         session[session.length] = new NewMessageInChat(parseInt(tempRoom,10), tempUsername, tempDate, tempMessage);
 
-<<<<<<< HEAD
+        let userMessageBox = $("<div  class='userMessageBox'></div>");
+        let messageBody = $("<div class='messageBody'></div>");
+        let messageFromUser = $("<p class='messageFromUser'></p>");
+        let messageInfo = $("<div class='messageInfo'></div>");
+        let userName = $("<p class='userName'></p>");
+        let timeStamp = $("<em class='timeStamp'></em>");
+
+        userMessageBox.appendTo("#list-of-messages");
+        messageBody.appendTo(userMessageBox);
+        messageFromUser.text(tempMessage).appendTo(messageBody);
+        messageInfo.appendTo(userMessageBox);
+        userName.text(tempUsername).appendTo(messageInfo);
+        timeStamp.text(tempDate).appendTo(messageInfo);
         //let messageToDisplay = `${tempUsername} ${tempDate}: ${tempMessage}`;
+        /*
+        -------------------------------
+        Gammal kod!
+        -------------------------------
+
         let userMessageBox =
         $("<div  class='userMessageBox'></div>").prependTo("#list-of-messages");
         $("<div class='messageBody'></div>").appendTo(".userMessageBox");
@@ -98,7 +115,7 @@ function newInformationToDisplay()
         $("<div class='messageInfo'></div>").appendTo(".userMessageBox");
         $("<p class='userName'></p>").text(tempUsername).appendTo(".messageInfo");
         $("<em class='timeStamp'></em>").text(tempDate).appendTo(".messageInfo");
-
+        */
 
 
         //$("<p class='messageFromUser'></p>").text(tempMessage).appendTo("#list-of-messages");
@@ -109,11 +126,11 @@ function newInformationToDisplay()
     {
         LoadUserOnlineList();
         for(let i=0;i<tempUsersInWhichRoom.length;i++)
-=======
+
         $("#list-of-messages").empty();
 
         for (let index=0;index <session.length;index++)
->>>>>>> 126b05bcf57ffa30cfaa0e2a8bef7515c2cdcaa8
+
         {
             let tempRoom = session[index].room;
 
