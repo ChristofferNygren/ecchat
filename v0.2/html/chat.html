@@ -5,6 +5,7 @@
     <title>EC C@</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -15,16 +16,18 @@
         <div class="item2">
             <h2 id="this-is-me"></h2>
             <h3>CHAT ROOMS:</h3>
-            <p><a href="#" class="chat-room-button">Tower of Babel</a></p>
-            <p><a href="#" class="chat-room-button">CHAT ROOM 2</a></p>
-            <p><a href="#" class="chat-room-button">CHAT ROOM 3</a></p>
-            <a href="#" id="log-out-button">LOG OUT</a>
+            <p><a href="#" class="chat-room-button" id="room0">Tower of Babel</a></p>
+            <p><a href="#" class="chat-room-button" id="room1">CHAT ROOM 2</a></p>
+            <p><a href="#" class="chat-room-button" id="room2">CHAT ROOM 3</a></p>
+
+            <button id="log-out-button">LOG OUT</button>
+
         </div>
         <div class="item3"><div id="list-of-messages"></div></div>
         <div class="item4"><h3>ONLINE USERS:</h3>
             <div id="list-of-users"></div></div>
         <div class="item5">
-            <div id="chat-room1">
+            <div id="chat-room">
                 <form id="chat">
                     <label for="chatmess">Type your message:</label>
                     <input id="chatmess" type="text" autocomplete="off">
@@ -32,13 +35,7 @@
                 </form>
             </div>
 
-            <div id="chat-room2">
 
-            </div>
-
-            <div id="chat-room3">
-
-            </div>
         </div>
     </div>
 

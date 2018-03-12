@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-<h2>You have signed out.</h2>
-<p>In 5 seconds you will be redirected to start (sign in-page).</p>
+
+
+<form id="del" name="user" action="/logout" method="post">
+    <input id="test" name="user">
+    <button type="submit">Del</button>
+</form>
+
 
 <script>
-    setTimeout(function(){window.location.href="localhost:5000"},3000);
+    $(document).ready(function(){
+
+        setTimeout(function() {
+            let tempUser = localStorage.getItem("user");
+          localStorage.removeItem("user");
+            $("#test").val(tempUser);
+            $("#del").submit();
+        },1);
+    });
+
+
 </script>
 
 </body>
