@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"information":[{"username":"cmb","password":"blabla"},{"username":"harry","password":"blabla"},{"username":"alex","password":"alex"},{"username":"test","password":"whatever"},{"username":"Lennart","password":"123"},{"username":"cny","password":"lol"},{"username":"Begin123","password":"joaper"},{"username":"torsten","password":"flink"},{"username":"marcus","password":"hej123"}]}
-=======
-{"information":[{"username":"alex","password":"alex"},{"username":"harry","password":"blabla"},{"username":"whatever","password":"whatever"},{"username":"whatever2","password":"whatever2"},{"username":"mr.smith","password":"mrsmith"},{"username":"cny","password":"lol"}]}
->>>>>>> master
+{"information":[{"username":"cmb","password":"blabla"},{"username":"harry","password":"blabla"},{"username":"alex","password":"alex"},{"username":"test","password":"whatever"},{"username":"Lennart","password":"123"},{"username":"cny","password":"lol"},{"username":"Begin123","password":"joaper"},{"username":"torsten","password":"flink"},{"username":"marcus","password":"hej123"},{"username":"kulkalle","password":"hej"}]}

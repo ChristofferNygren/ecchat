@@ -90,7 +90,8 @@ function newInformationToDisplay(e)
         session[session.length] = new NewMessageInChat(parseInt(tempRoom,10), tempUsername, tempDate, tempMessage);
 
         //let messageToDisplay = `${tempUsername} ${tempDate}: ${tempMessage}`;
-        $("<div  class='userMessageBox'></div>").appendTo("#list-of-messages");
+        let userMessageBox =
+        $("<div  class='userMessageBox'></div>").prependTo("#list-of-messages");
         $("<div class='messageBody'></div>").appendTo(".userMessageBox");
         $("<p class='messageFromUser'></p>").text(tempMessage).appendTo(".messageBody");
         $("<div class='messageInfo'></div>").appendTo(".userMessageBox");
