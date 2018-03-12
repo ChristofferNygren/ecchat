@@ -171,12 +171,12 @@ function UserOnlineList()
         url: "../data/usersOnline.json",
         success: (response) => {
             $("#list-of-users").empty();
-            $("<h2></h2>").text(chatRooms[currentRoom]).appendTo("#list-of-users");
+            //$("<h2></h2>").text(chatRooms[currentRoom]).appendTo("#list-of-users");
             for(let i in response.online)
             {
                 let tempUser = response.online[i].username;
 
-                $("<p></p>").text(tempUser).appendTo("#list-of-users");
+                $("<li></li>").text(tempUser).appendTo("#list-of-users");
             }
 
         },
