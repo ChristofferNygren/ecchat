@@ -509,9 +509,9 @@ input[class="buttonMessage"]:hover{
     border-radius: 5px;
     padding-bottom: 20px;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     flex-wrap: wrap;
 }
 .usersInRoomHead{
@@ -536,7 +536,7 @@ input[class="buttonMessage"]:hover{
     padding: 0 10px 10px 10px;
 
 }
-#usersOnline{
+#list-of-users{
     list-style-type: none;
     padding: 0;
 }
@@ -557,6 +557,13 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
     -webkit-transition-delay: 9999s;
+}
+#SignIn > input[type="submit"]:hover{
+    cursor: pointer;
+    background-color: rgba(255,140,0, 0.9);
+}
+button:hover{
+    background-color: rgba(255,140,0, 0.9);
 }
 
 /*
