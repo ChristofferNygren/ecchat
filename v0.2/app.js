@@ -6,10 +6,12 @@ let bodyParser = require('body-parser');
 let fs = require("fs");
 let server = http.createServer(app);
 let io = require('socket.io').listen(server);
+let profanity = require('profanity-censor');
 
 //------------------------------
 let currentUser = "";
 let listOfUsersOnline = [];
+let temp2 = [];
 // -----------------------------
 
 app.use(express.static(__dirname + '/'));
@@ -20,28 +22,31 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 server.listen(50000);
 
-app.get('/', function (req, res) {
 
-    res.sendFile(__dirname + '/html/login.html');
-});
 
 io.on('connection', function (socket) {
     console.log("Connected...");
 
     socket.on("chat message", function(msg)
     {
+        profanity.filter(msg);
+
+
         io.emit('chat message', msg);
     });
 
-    socket.on("new room", function(msg) {
-        io.emit("new room", msg);
-    });
+
 
 });
 
+app.get('/', function (req, res) {
+
+    res.sendFile(__dirname + '/html/login.html');
+});
 // -----------------------------
 
-app.post('/', function(req, res, next) {
+app.post('/login', function(req, res, next) {
+
 
     if (!req.body.user.username || !req.body.user.password)  // Lägg till motsvarande RegExp som finns på klientsidan.
     {
@@ -54,7 +59,23 @@ app.post('/', function(req, res, next) {
             information: []
         };
 
-        //  let jsonUser = JSON.stringify(user);
+        // ----------
+
+        fs.readFile(__dirname + '/data/usersOnline.json', 'utf8', function readFileCallback(err, data) {
+
+            if (err) {
+                console.log(err);
+            }
+
+            else {
+                temp2 = JSON.parse(data);
+            }
+        });
+
+        console.log(temp2);
+
+        // ----------
+
 
         fs.readFile(__dirname + '/data/users.json', 'utf8', function readFileCallback(err, data) {
             if (err) {
@@ -63,21 +84,39 @@ app.post('/', function(req, res, next) {
 
             else {
                 user = JSON.parse(data);
-                user.information.push({username: req.body.user.username, password: req.body.user.password});
 
+
+                //   console.log(`Lista: ${user.information[0].username}`);
+
+                let temp = req.body.user.username;
+                console.log(temp);
+
+                let counter = 0;
 
                 for (let index in user.information) //(let index in user.information)
                 {
-                    if (user.information[index].username === req.body.user.username) {
+                    if (user.information[index].username === req.body.user.username)
+                    {
 
-                        if (user.information[index].password === req.body.user.password) {
+                        for(let test in temp2.online)
+                        {
+                            if(user.information[index].username === temp2.online[test].username)counter++;
+                        }
 
-                            currentUser = user.information[index].username;
-                            console.log(`You have entered correct password for ${currentUser}.`);
-                            listOfUsersOnline[listOfUsersOnline.length]=currentUser;
+                        if(counter === 0)
+                        {
 
-                            res.redirect("/chat");
-                            return next();
+                            if (user.information[index].password === req.body.user.password) {
+                                user.information.push({
+                                    username: req.body.user.username,
+                                    password: req.body.user.password
+                                });
+                                currentUser = user.information[index].username;
+                                console.log(`You have entered correct password for ${currentUser}.`);
+
+                                res.redirect("/chat");
+                                return next();
+                            }
                         }
                     }
                 }

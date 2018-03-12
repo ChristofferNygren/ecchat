@@ -3,12 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <title>EC C@</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
+<div id="wrapper">
+    <div id="header">
+        <div id="nav">
+            <ul class="navlist">
+                <li class="active"><a href="chat.html">Home</a></li>
+                <li><a href="#" id="profile">Profile</a></li>
+                <li class="logout" id="#log-out-button"><a href="/">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="content">
+        <h1>Chat Rooms</h1>
+        <div id="chatRooms">
+            <div class="chats">
+                <button id="room0" class="openChat">Nature</button>
+                <div class="description">
+                    <p>Come chat about nature with your friends! woohoo!!!!</p>
+                </div>
+            </div>
+            <div class="chats">
+                <button id="room1" class="openChat">Fitness</button>
+                <div class="description">
+                    <p>Come chat about fitness with your friends! AWESOME!!!</p>
+                </div>
+            </div>
+            <div class="chats">
+                <button id="room2" class="openChat">M.o.L</button>
+                <div class="description">
+                    <p>What is the meaning of life? Chat about it here! <span><em>Keep it clean!</em></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div>
+            <p>If any problems occur <br> please contact us</p>
+            <em>info@ecchat.com</em>
+        </div>
+        <div>
+            <strong class="copyright">&copy;EC-Chat inc. 2018</strong>
+        </div>
+        <div>
+            <img src="../images/logoec.png" alt="logo">
+        </div>
+    </div>
+</div>
+<div class="overlay">
+    <div class="chatModal">
+        <div class="modalHeader">
+            <button id="closeModal">X</button>
+        </div>
+        <div class="modalBody">
+            <div class="chatBox">
+                <div id="list-of-messages">
+                    <!--<div class="userMessageBox">
+                        <div class="messageBody">
+                            <p class="messageFromUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus consequuntur cupiditate dolore eius eveniet explicabo labore, optio perspiciatis, quisquam tempora vel voluptates. Aspernatur deserunt harum itaque nihil, porro repudiandae temporibus! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias consequuntur culpa eius eveniet fuga magnam mollitia nostrum quas quia, quo reiciendis repellat reprehenderit rerum tempore tenetur unde voluptas voluptatem?</p>
+                        </div>
+                        <div class="messageInfo">
+                            <p class="userName">MarcusF</p><em class="timeStamp">2018-03-07 16:02</em>
+                        </div>
+                    </div>
+                    <div class="userMessageBox">
+                        <div class="messageBody">
+                            <p class="messageFromUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus consequuntur cupiditate dolore eius eveniet explicabo labore, optio perspiciatis, quisquam tempora vel voluptates. Aspernatur deserunt harum itaque nihil, porro repudiandae temporibus! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias consequuntur culpa eius eveniet fuga magnam mollitia nostrum quas quia, quo reiciendis repellat reprehenderit rerum tempore tenetur unde voluptas voluptatem?</p>
+                        </div>
+                        <div class="messageInfo">
+                            <p class="userName">MarcusF</p><em class="timeStamp">2018-03-07 16:02</em>
+                        </div>
+                    </div>
+                    <div class="userMessageBox">
+                        <div class="messageBody">
+                            <p class="messageFromUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus consequuntur cupiditate dolore eius eveniet explicabo labore, optio perspiciatis, quisquam tempora vel voluptates. Aspernatur deserunt harum itaque nihil, porro repudiandae temporibus! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias consequuntur culpa eius eveniet fuga magnam mollitia nostrum quas quia, quo reiciendis repellat reprehenderit rerum tempore tenetur unde voluptas voluptatem?</p>
+                        </div>
+                        <div class="messageInfo">
+                            <p class="userName">MarcusF</p><em class="timeStamp">2018-03-07 16:02</em>
+                        </div>
+                    </div>
+                    <div class="userMessageBox">
+                        <div class="messageBody">
+                            <p class="messageFromUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus consequuntur cupiditate dolore eius eveniet explicabo labore, optio perspiciatis, quisquam tempora vel voluptates. Aspernatur deserunt harum itaque nihil, porro repudiandae temporibus! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias consequuntur culpa eius eveniet fuga magnam mollitia nostrum quas quia, quo reiciendis repellat reprehenderit rerum tempore tenetur unde voluptas voluptatem?</p>
+                        </div>
+                        <div class="messageInfo">
+                            <p class="userName">MarcusF</p><em class="timeStamp">2018-03-07 16:02</em>
+                        </div>
+                    </div>
+                    <div class="userMessageBox">
+                        <div class="messageBody">
+                            <p class="messageFromUser">Testar lite grann...</p>
+                        </div>
+                        <div class="messageInfo">
+                            <p class="userName">MarcusF</p><em class="timeStamp">2018-03-07 16:02</em>
+                        </div>
+                    </div>
+                    <div class="userMessageBox">
+                        <div class="messageBody">
+                            <p class="messageFromUser">Testar lite grann...</p>
+                        </div>
+                        <div class="messageInfo">
+                            <p class="userName">MarcusF</p><em class="timeStamp">2018-03-07 16:02</em>
+                        </div>
+                    </div>
+                </div>-->
+                </div>
+                <div class="writeMessage">
+                    <form id="chat">
+                        <label for="chatmess"></label>
+                        <textarea name="msg" id="chatmess" autocomplete="off" cols="30" rows="2"></textarea>
+                        <input type="submit" value="Send" class="buttonMessage">
+                    </form>
+                </div>
+            </div>
+            <div class="usersInRoom">
+                <div class="usersInRoomHead">
+                    <h3 class="chatRoomTitle">Nature</h3>
+                    <h4>Users Online:</h4>
+                </div>
+                <div id="userListDiv">
+                    <ul id="list-of-users">
+                        <!--<li>Marcus</li>
+                        <li>Doffe</li>
+                        <li>CMB</li>
+                        <li>Alex</li>
+                        <li>JOCKE</li>
+                        <li>EzzeKungen21</li>
+                        <li>Somebody</li>
+                        <li>Kalle</li>
+                        <li>Marcus</li>
+                        <li>Doffe</li>
+                        <li>CMB</li>
+                        <li>Alex</li>
+                        <li>JOCKE</li>
+                        <li>EzzeKungen21</li>
+                        <li>Somebody</li>
+                        <li>Kalle</li>
+                        <li>Marcus</li>
+                        <li>Doffe</li>
+                        <li>CMB</li>
+                        <li>Alex</li>
+                        <li>JOCKE</li>
+                        <li>EzzeKungen21</li>
+                        <li>Somebody</li>
+                        <li>Kalle</li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="userBoard">
+    <div class="userData">
+        <div class="userDataInner">
+            <div class="userDataInnerDesc">
+                <p class="userDataInfo">Full Name: </p>
+                <p class="userDataInfo">Email: </p>
+                <p class="userDataInfo">Username: </p>
+            </div>
+            <div class="userDataInnerData">
+                <em id="userFullName">Ezequiel Corazzon</em>
+                <em id="userEmail">ezze.cozz@outlook.com</em>
+                <em id="userUsername">EzzeKungen21</em>
+            </div>
+        </div>
+    </div>
+    <div class="userImage">
+        <button id="closeUserBoard">Close</button>
+    </div>
+</div>
+
+<script src="../scripts/chat.js"></script>
+<script src="../scripts/profileAndChatModal.js"></script>
+
+<!--
+----------------------------------------------
+C-M:s gamla kod.
+----------------------------------------------
 <div id="chat-wrapper">
 
     <div class="grid-container">
@@ -42,5 +219,6 @@
 </div>
 
 <script src="../scripts/chat.js"></script>
+-->
 </body>
 </html>
