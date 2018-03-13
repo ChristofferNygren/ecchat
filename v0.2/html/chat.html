@@ -16,8 +16,11 @@
             <ul class="navlist">
                 <li class="active"><a href="chat.html">Home</a></li>
                 <li><a href="#" id="profile">Profile</a></li>
-                <li class="logout"><button id="log-out-button">LOG OUT</button></li>
             </ul>
+        </div>
+        <div id="statusBox">
+        <p>{Username} ONLINE</p>
+        <button id="log-out-button">LOG OUT</button>
         </div>
     </div>
     <div id="content">
@@ -64,7 +67,7 @@
         <div class="modalBody">
             <div class="chatBox">
                 <div id="list-of-messages">
-                    <!--<div class="userMessageBox">
+                    <div class="userMessageBox">
                         <div class="messageBody">
                             <p class="messageFromUser">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus consequuntur cupiditate dolore eius eveniet explicabo labore, optio perspiciatis, quisquam tempora vel voluptates. Aspernatur deserunt harum itaque nihil, porro repudiandae temporibus! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias consequuntur culpa eius eveniet fuga magnam mollitia nostrum quas quia, quo reiciendis repellat reprehenderit rerum tempore tenetur unde voluptas voluptatem?</p>
                         </div>
@@ -112,13 +115,13 @@
                             <p class="userName">MarcusF</p><em class="timeStamp">2018-03-07 16:02</em>
                         </div>
                     </div>
-                </div>-->
                 </div>
+                <!--</div>-->
                 <div class="writeMessage">
                     <form id="chat">
                         <label for="chatmess"></label>
                         <textarea name="msg" id="chatmess" autocomplete="off" cols="30" rows="2"></textarea>
-                        <input id="chatMessSend" type="submit" value="Send" class="buttonMessage">
+                        <input id="chatMessSend" type="submit" value="Send" class="buttonMessage"
                     </form>
                 </div>
             </div>
