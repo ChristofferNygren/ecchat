@@ -34,6 +34,8 @@ $(document).ready(function(){
     $("#chat").on("click", sendMessage);
    // $("#chat").trigger("click");
 
+
+
     $("#log-out-button").on("click", logOutUser);
 
     $("#room0").click(function(){
@@ -46,6 +48,10 @@ $(document).ready(function(){
     $("#room2").click(function(){
         ChangeRoom(2);
     });
+
+
+
+    ChangeRoom(0);
 });
 
 

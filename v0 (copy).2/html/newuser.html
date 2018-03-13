@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Register new user</title>
+    <script src="../scripts/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<!-- Fält för full name, email, image(?) -->
+
+<div id="wrapper">
+    <form action="/register" method="POST" class="userform" id="register">
+        <fieldset>
+            <legend>Register new user</legend>
+
+            <label for="user">Username:</label>
+            <input id="user" type="text" name="user[username]">
+            <p>This is a required field. <span id="infoUser"></span></p>
+
+            <label for="userpass">Password:</label>
+            <input id="userpass" type="password" name="user[password]">
+            <p>This is a required field. <span id="infoPassword"></span></p>
+
+            <label for="userpassverify">Password:</label>
+            <input id="userpassverify" type="password">
+            <p>This is a required field. <span id="infoPasswordVerify"></span></p>
+
+            <button id="submit-button">Sign in</button>
+        </fieldset>
+    </form>
+</div>
+<script src="../scripts/newuser.js"></script>
+</body>
+</html>
