@@ -33,17 +33,64 @@ $(document).ready(function(){
 
     $("#log-out-button").on("click", logOutUser);
 
-    $("#room0").click(function(){
-        ChangeRoom(0);
-    });
-    $("#room1").click(function(){
-
-        ChangeRoom(1);
-    });
-    $("#room2").click(function(){
-        ChangeRoom(2);
-    });
 });
+
+let userBoard = $("#userBoard");
+//let displayValue = false;
+
+$("#profile").click(function(){
+    userBoard.css("display","flex");
+    //displayValue = true;
+//.animate({up: '292px'})
+});
+
+$("#closeUserBoard").click(function(){
+    userBoard.hide();
+    //displayValue = false;
+});
+
+/*if (displayValue === true){
+$("#wrapper").click(function(){
+    userBoard.hide();
+    displayValue = false;
+});
+}*/
+
+//Set width and height of overlay + open chatMmodal
+
+
+//Close chatModal
+$("#closeModal").click(function(){
+    $(".overlay").css("display", "none");
+});
+
+$(".openChat").click(function(){
+    let buttonId = $(this).attr("id");
+    let messageArea = $("#list-of-messages");
+    let title = $(".chatRoomTitle");
+    console.log(buttonId);
+    $(".overlay").css("height", $("#wrapper").height()).css("display", "flex");
+    if (buttonId === "room0"){
+        $(".chatModal").css("background", "url('../images/Nature.jpg')").css("background-size", "cover");
+        title.text("Nature");
+        ChangeRoom(0);
+    }
+    else if (buttonId === "room1"){
+        $(".chatModal").css("background", "url('../images/Fitness.jpg')").css("background-size", "cover");
+        title.text("Fitness");
+        ChangeRoom(1);
+    }
+    else{
+        $(".chatModal").css("room2", "url('../images/MOL.jpg')").css("background-size", "cover");
+        title.text("Meaning of Life");
+        ChangeRoom(2);
+    }
+
+    //$(".userMessageBox").last().attr("id", "elementToScrollTo"); Scrollar ner till sista elementet...
+    messageArea.scrollTop($("#elementToScrollTo").position().top);
+});
+
+
 // *********************************************************************************************************************
 function sendMessage(e)
 {
@@ -80,22 +127,34 @@ function newInformationToDisplay()
 
         session[session.length] = new NewMessageInChat(parseInt(tempRoom,10), tempUsername, tempDate, tempMessage);
 
-        let userMessageBox = $("<div  class='userMessageBox'></div>");
-        let messageBody = $("<div class='messageBody'></div>");
-        let messageFromUser = $("<p class='messageFromUser'></p>");
-        let messageInfo = $("<div class='messageInfo'></div>");
-        let userName = $("<p class='userName'></p>");
-        let timeStamp = $("<em class='timeStamp'></em>");
 
-        userMessageBox.appendTo("#list-of-messages");
-        messageBody.appendTo(userMessageBox);
-        messageFromUser.text(tempMessage).appendTo(messageBody);
-        messageInfo.appendTo(userMessageBox);
-        userName.text(tempUsername).appendTo(messageInfo);
-        timeStamp.text(tempDate).appendTo(messageInfo);
+        for (let index=0;index <session.length;index++)
 
+        {
+            let tempRoom = session[index].room;
 
-        $("#list-of-messages").scrollTop($("#elementToScrollTo").position().top);
+            if(currentRoom === tempRoom && session[index].message !== "")
+            {
+            let userMessageBox = $("<div  class='userMessageBox'></div>");
+            let messageBody = $("<div class='messageBody'></div>");
+            let messageFromUser = $("<p class='messageFromUser'></p>");
+            let messageInfo = $("<div class='messageInfo'></div>");
+            let userName = $("<p class='userName'></p>");
+            let timeStamp = $("<em class='timeStamp'></em>");
+
+            messageBody.appendTo(userMessageBox);
+            messageFromUser.text(tempMessage).appendTo(messageBody);
+            messageInfo.appendTo(userMessageBox);
+            userName.text(tempUsername).appendTo(messageInfo);
+            timeStamp.text(tempDate).appendTo(messageInfo);
+
+            userMessageBox.appendTo("#list-of-messages");
+            messageInfo.appendTo("#list-of-messages");
+                console.log(session[length - 1].message); // stryk?
+        }
+        }
+
+        $("#list-of-messages").scrollTop($("#elementToScrollTo").position().bottom);
         //let messageToDisplay = `${tempUsername} ${tempDate}: ${tempMessage}`;
         /*
         -------------------------------
@@ -194,16 +253,13 @@ function ChangeRoom(newRoom)
 {
     $("#list-of-messages").empty();
     currentRoom = newRoom;
+
     for (let index=0;index <session.length;index++)
     {
         let tempRoom = session[index].room;
 
         if(currentRoom === tempRoom && session[index].message !== "")
         {
-            let sessionUser = `${session[index].user}`;
-            let sessionDate =  `${session[index].date}`;
-            let sessionMessage = `${session[index].message}`;
-
             let userMessageBox = $("<div  class='userMessageBox'></div>");
             let messageBody = $("<div class='messageBody'></div>");
             let messageFromUser = $("<p class='messageFromUser'></p>");
@@ -211,13 +267,14 @@ function ChangeRoom(newRoom)
             let userName = $("<p class='userName'></p>");
             let timeStamp = $("<em class='timeStamp'></em>");
 
-            userMessageBox.appendTo("#list-of-messages");
             messageBody.appendTo(userMessageBox);
-            messageFromUser.text(sessionMessage).appendTo(messageBody);
+            messageFromUser.text(session[index].message).appendTo(messageBody);
             messageInfo.appendTo(userMessageBox);
-            userName.text(sessionUser).appendTo(messageInfo);
-            timeStamp.text(sessionDate).appendTo(messageInfo);
-             console.log(session[length - 1].message);
+            userName.text(session[index].user).appendTo(messageInfo);
+            timeStamp.text(session[index].date).appendTo(messageInfo);
+
+            userMessageBox.appendTo("#list-of-messages");
+            messageInfo.appendTo("#list-of-messages");
         }
     }
 }

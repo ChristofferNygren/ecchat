@@ -6,7 +6,6 @@ let bodyParser = require('body-parser');
 let fs = require("fs");
 let server = http.createServer(app);
 let io = require('socket.io').listen(server);
-let profanity = require('profanity-censor');
 
 //------------------------------
 let currentUser = "";
@@ -29,7 +28,6 @@ io.on('connection', function (socket) {
 
     socket.on("chat message", function(msg)
     {
-        profanity.filter(msg);
 
 
         io.emit('chat message', msg);
