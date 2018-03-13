@@ -31,7 +31,7 @@ $(document).ready(function(){
     UserOnlineList();
     session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
     setInterval(UserOnlineList,1000);
-    $("#chat").on("click", sendMessage);
+    $("#chatSubmit").on("click", sendMessage);
    // $("#chat").trigger("click");
 
     $("#log-out-button").on("click", logOutUser);
@@ -54,7 +54,7 @@ $(document).ready(function(){
 function sendMessage(e)
 {
     e.preventDefault();
-    session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
+    //session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
     let messageFromClient =  `${createTimeStamp()}|${user}|${document.getElementById("chatmess").value}|${currentRoom}`;
 
     socket.emit("chat message", messageFromClient);
@@ -102,6 +102,9 @@ function newInformationToDisplay()
         messageInfo.appendTo(userMessageBox);
         userName.text(tempUsername).appendTo(messageInfo);
         timeStamp.text(tempDate).appendTo(messageInfo);
+
+
+        $("#list-of-messages").scrollTop($("#elementToScrollTo").position().top);
         //let messageToDisplay = `${tempUsername} ${tempDate}: ${tempMessage}`;
         /*
         -------------------------------
@@ -124,6 +127,7 @@ function newInformationToDisplay()
 
     socket.on("new room", function(msg)
     {
+        console.log("test if working...");
         LoadUserOnlineList();
         for(let i=0;i<tempUsersInWhichRoom.length;i++)
 
@@ -136,9 +140,24 @@ function newInformationToDisplay()
 
             if(currentRoom === tempRoom && session[index].message !== "")
             {
-                let messageToDisplay = `${session[index].user} ${session[index].date} ${session[index].message}`;
+                let sessionUser = `${session[index].user}`;
+                let sessionDate =  `${session[index].date}`;
+                let sessionMessage = `${session[index].message}`;
 
-                $("<p></p>").text(messageToDisplay).appendTo("#list-of-messages");
+                let userMessageBox = $("<div  class='userMessageBox'></div>");
+                let messageBody = $("<div class='messageBody'></div>");
+                let messageFromUser = $("<p class='messageFromUser'></p>");
+                let messageInfo = $("<div class='messageInfo'></div>");
+                let userName = $("<p class='userName'></p>");
+                let timeStamp = $("<em class='timeStamp'></em>");
+
+                userMessageBox.appendTo("#list-of-messages");
+                messageBody.appendTo(userMessageBox);
+                messageFromUser.text(sessionMessage).appendTo(messageBody);
+                messageInfo.appendTo(userMessageBox);
+                userName.text(sessionUser).appendTo(messageInfo);
+                timeStamp.text(sessionDate).appendTo(messageInfo);
+                //$("<p></p>").text(messageToDisplay).appendTo("#list-of-messages");
              //    console.log(session[length - 1].message);
             }
         }
@@ -201,9 +220,23 @@ function ChangeRoom(newRoom)
 
         if(currentRoom === tempRoom && session[index].message !== "")
         {
-            let messageToDisplay = `${session[index].user} ${session[index].date} ${session[index].message}`;
+            let sessionUser = `${session[index].user}`;
+            let sessionDate =  `${session[index].date}`;
+            let sessionMessage = `${session[index].message}`;
 
-            $("<p></p>").text(messageToDisplay).appendTo("#list-of-messages");
+            let userMessageBox = $("<div  class='userMessageBox'></div>");
+            let messageBody = $("<div class='messageBody'></div>");
+            let messageFromUser = $("<p class='messageFromUser'></p>");
+            let messageInfo = $("<div class='messageInfo'></div>");
+            let userName = $("<p class='userName'></p>");
+            let timeStamp = $("<em class='timeStamp'></em>");
+
+            userMessageBox.appendTo("#list-of-messages");
+            messageBody.appendTo(userMessageBox);
+            messageFromUser.text(sessionMessage).appendTo(messageBody);
+            messageInfo.appendTo(userMessageBox);
+            userName.text(sessionUser).appendTo(messageInfo);
+            timeStamp.text(sessionDate).appendTo(messageInfo);
              console.log(session[length - 1].message);
         }
     }
