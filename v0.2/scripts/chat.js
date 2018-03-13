@@ -26,10 +26,8 @@ function NewMessageInChat(room, user,date,message)
 $(document).ready(function(){
     checkWhoIsHere();
     UserOnlineList();
-   // session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
     setInterval(UserOnlineList,1000);
     $("#chatMessSend").on("click", sendMessage);
-   // $("#chat").trigger("click");
 
     $("#log-out-button").on("click", logOutUser);
 
@@ -48,7 +46,6 @@ $(document).ready(function(){
 function sendMessage(e)
 {
     e.preventDefault();
-   // session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
     let messageFromClient =  `${createTimeStamp()}|${user}|${document.getElementById("chatmess").value}|${currentRoom}`;
 
     socket.emit("chat message", messageFromClient);
@@ -116,7 +113,7 @@ function newInformationToDisplay()
         console.log(session[length - 1].message); // stryk?
     });
 
-   /* socket.on("new room", function(msg)
+   socket.on("new room", function(msg)
     {
         LoadUserOnlineList();
         for(let i=0;i<tempUsersInWhichRoom.length;i++)
@@ -154,8 +151,6 @@ function newInformationToDisplay()
 
         console.log(session[length - 1].message); // stryk?
     });
-
-*/
 }
 // *********************************************************************************************************************
 function createTimeStamp()
@@ -194,6 +189,8 @@ function ChangeRoom(newRoom)
 {
     $("#list-of-messages").empty();
     currentRoom = newRoom;
+    console.log("NewR " + newRoom);
+    console.log("CurR " + currentRoom);
     for (let index=0;index <session.length;index++)
     {
         let tempRoom = session[index].room;
@@ -222,3 +219,37 @@ function ChangeRoom(newRoom)
     }
 }
 // *********************************************************************************************************************
+let userBoard = $("#userBoard");
+
+$("#profile").click(function(){
+    userBoard.css("display","flex");
+});
+
+$("#closeUserBoard").click(function(){
+    userBoard.hide();
+});
+$(".openChat").click(function(){
+    let buttonId = $(this).attr("id");
+    let messageArea = $("#list-of-messages");
+    let title = $(".chatRoomTitle");
+    $(".overlay").css("height", $("#wrapper").height()).css("display", "flex");
+
+    if (buttonId === "room0"){
+        $(".chatModal").css("background", "url('../images/Nature.jpg')").css("background-size", "cover");
+        title.text("Nature");
+    }
+
+    else if (buttonId === "room1"){
+        $(".chatModal").css("background", "url('../images/Fitness.jpg')").css("background-size", "cover");
+        title.text("Fitness");
+    }
+
+    else{
+        $(".chatModal").css("background", "url('../images/MOL.jpg')").css("background-size", "cover");
+        title.text("Meaning of Life");
+    }
+
+});
+$("#closeModal").click(function(){
+    $(".overlay").css("display", "none");
+});
