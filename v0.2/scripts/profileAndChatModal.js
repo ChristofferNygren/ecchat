@@ -40,7 +40,8 @@ $(".openChat").click(function(){
         $(".chatModal").css("room2", "url('../images/MOL.jpg')").css("background-size", "cover");
         title.text("Meaning of Life");
     }
-    $(".userMessageBox").last().attr("id", "elementToScrollTo");
+
+    //$(".userMessageBox").last().attr("id", "elementToScrollTo"); Scrollar ner till sista elementet...
     messageArea.scrollTop($("#elementToScrollTo").position().top);
 });
 

@@ -389,13 +389,12 @@ button:hover{
     border-radius: 5px;
 }
 #list-of-messages{
-    box-sizing: border-box;
     height: 90%;
     max-height: 90%;
     width: 100%;
     overflow-y: scroll;
-    padding-left: 10px;
-    padding-right: 10px;
+    /*padding-left: 10px;
+    padding-right: 10px;*/
 }
 .userMessageBox{
     box-sizing: border-box;
@@ -406,8 +405,8 @@ button:hover{
     max-width: 75%;
     height: auto;
     padding-top:10px;
-    float: left;
-    clear:right;
+    margin-bottom: 10px;
+    margin-left: 12.5%;
 }
 .messageBody{
     background-color: rgba(130, 78, 99, 0.6);
@@ -435,16 +434,10 @@ button:hover{
 .userName{
     font-size: 10px;
     margin: 0 10px 0 0;
+    font-weight: bold;
 }
 .timeStamp{
     font-size: 10px;
-}
-.userMessageBox:nth-child(even){
-    clear: left;
-    float:right;
-}
-.userMessageBox:nth-child(even) > .messageBody{
-    background-color: rgba(34, 50, 99, 0.6)
 }
 #chatmess::-webkit-scrollbar, #textTerms::-webkit-scrollbar, #list-of-messages::-webkit-scrollbar, .userListDiv::-webkit-scrollbar {
     display: none;
