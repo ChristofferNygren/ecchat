@@ -22,13 +22,15 @@ body{
 }
 #header{
     display: flex;
+    box-sizing: border-box;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
     color: whitesmoke;
     background: transparent;
     padding: 30px;
+    width: 100%;
 }
 #nav{
     display: flex;
@@ -36,7 +38,7 @@ body{
     align-items: flex-start;
     justify-content: flex-start;
     flex-wrap: wrap;
-    width: 100%;
+    width: 60%;
 }
 .navlist{
     list-style-type: none;
@@ -63,8 +65,18 @@ body{
     border-radius: 15px;
     background-color: rgba(213, 117, 57, 0.8);
 }
-.logout{
-    float: right;
+#statusBox{
+    display:flex;
+    flex-direction: column;
+    width: 40%;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+#log-out-button{
+    justify-self: flex-start;
+    width: 100px;
+    font-size: 12px;
 }
 #userBoard{
     box-sizing: border-box;
@@ -557,6 +569,17 @@ input:-webkit-autofill:active {
 }
 button:hover{
     background-color: rgba(255,140,0, 0.9);
+}
+#logoutMessage{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 60vh;
+}
+#logoutMessage > form{
+    display: none;
 }
 
 /*
