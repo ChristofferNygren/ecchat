@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.16.2",
+    "express": "^4.16.3",
     "profanity-censor": "^1.0.5",
     "socket.io": "^2.0.4"
   },

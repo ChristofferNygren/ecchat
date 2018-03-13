@@ -23,15 +23,12 @@ function NewMessageInChat(room, user,date,message)
     this.message = message;
 }
 // *********************************************************************************************************************
-
-
-
 $(document).ready(function(){
     checkWhoIsHere();
     UserOnlineList();
-    session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
+   // session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
     setInterval(UserOnlineList,1000);
-    $("#chatSubmit").on("click", sendMessage);
+    $("#chatMessSend").on("click", sendMessage);
    // $("#chat").trigger("click");
 
     $("#log-out-button").on("click", logOutUser);
@@ -47,14 +44,11 @@ $(document).ready(function(){
         ChangeRoom(2);
     });
 });
-
-
-
 // *********************************************************************************************************************
 function sendMessage(e)
 {
     e.preventDefault();
-    //session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
+   // session[0] = new NewMessageInChat(0, user, createTimeStamp(), "NEW USER ONLINE!");
     let messageFromClient =  `${createTimeStamp()}|${user}|${document.getElementById("chatmess").value}|${currentRoom}`;
 
     socket.emit("chat message", messageFromClient);
@@ -63,7 +57,6 @@ function sendMessage(e)
 
     $("#chatmess").val("");
 }
-
 // *********************************************************************************************************************
 function checkWhoIsHere()
 {
@@ -74,8 +67,6 @@ function checkWhoIsHere()
 // *********************************************************************************************************************
 function newInformationToDisplay()
 {
-
-
     socket.on("chat message", function(msg)
     {
         //e.preventDefault();
@@ -125,9 +116,8 @@ function newInformationToDisplay()
         console.log(session[length - 1].message); // stryk?
     });
 
-    socket.on("new room", function(msg)
+   /* socket.on("new room", function(msg)
     {
-        console.log("test if working...");
         LoadUserOnlineList();
         for(let i=0;i<tempUsersInWhichRoom.length;i++)
 
@@ -165,10 +155,8 @@ function newInformationToDisplay()
         console.log(session[length - 1].message); // stryk?
     });
 
-
-
+*/
 }
-
 // *********************************************************************************************************************
 function createTimeStamp()
 {
@@ -180,12 +168,9 @@ function logOutUser()
 {
     window.location.assign("/html/logout.html");
 }
-
 // *********************************************************************************************************************
 function UserOnlineList()
 {
-
-
     if(statusForUpdateOfOnlineUsers) $.ajax({
         url: "../data/usersOnline.json",
         success: (response) => {
@@ -203,17 +188,12 @@ function UserOnlineList()
             console.log('An error occured')
         }
     });
-
-
 }
 // *********************************************************************************************************************
 function ChangeRoom(newRoom)
 {
     $("#list-of-messages").empty();
-
     currentRoom = newRoom;
-
-
     for (let index=0;index <session.length;index++)
     {
         let tempRoom = session[index].room;
@@ -240,8 +220,5 @@ function ChangeRoom(newRoom)
              console.log(session[length - 1].message);
         }
     }
-
-
-
 }
 // *********************************************************************************************************************

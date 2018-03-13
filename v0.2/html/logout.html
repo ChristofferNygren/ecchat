@@ -2,17 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Logout</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-
-
-<form id="del" name="user" action="/logout" method="post">
-    <input id="test" name="user">
-    <button type="submit">Del</button>
-</form>
-
+<div id="wrapper">
+    <form style="display: none" id="del" name="user" action="/logout" method="post">
+        <input id="test" name="user">
+        <button type="submit">Del</button>
+    </form>
+    <h1>WOOEOOEOE</h1>
+    <p>wowowowowowowowowow</p>
+</div>
 
 <script>
     $(document).ready(function(){
@@ -22,10 +23,8 @@
           localStorage.removeItem("user");
             $("#test").val(tempUser);
             $("#del").submit();
-        },1);
+        },3000);
     });
-
-
 </script>
 
 </body>
