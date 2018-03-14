@@ -1,0 +1,18 @@
+{
+  "name": "ecchat",
+  "version": "0.0.1",
+  "description": "chat app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "c-m,cn,mf,jp,amk",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "profanity-censor": "^1.0.5",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {}
+}
